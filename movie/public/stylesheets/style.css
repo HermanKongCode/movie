@@ -3,6 +3,11 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background-color: rgb(16,16,16) !important;
   color: white !important;
+
+}
+
+html {
+
 }
 
 .table-striped>tbody>tr:nth-of-type(odd) {
@@ -11,4 +16,8 @@ body {
 
 #movie-gross-table table{
  background-color: #242424;
+ font-size: 18px;
+}
+
+#movie-gross-table {
 }
