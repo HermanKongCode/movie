@@ -1,13 +1,12 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: black !important;
+  background-color: rgb(16,16,16) !important;
   color: white !important;
 }
 
 .table-striped>tbody>tr:nth-of-type(odd) {
-    background-color: rgb(138,138,138) !important;
-    color: #333 !important;
+    background-color: rgb(103,103,103) !important;
 }
 
 @media (max-width: 1024 and min) {
