@@ -5,14 +5,12 @@ body {
   color: white !important;
 }
 
-a {
-  color: #00B7FF;
-}
-
 .table-striped>tbody>tr:nth-of-type(odd) {
     background-color: rgb(138,138,138) !important;
     color: #333 !important;
 }
 
+@media (max-width: 1024 and min) {
 
+}
 
