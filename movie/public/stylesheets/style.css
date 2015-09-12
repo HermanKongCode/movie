@@ -5,8 +5,13 @@ body {
     color: white !important;
 }
 
-.table-striped>tbody>tr:nth-of-type(odd) {
+/*.table-striped>tbody>tr:nth-of-type(odd){*/
+.odd {
     background-color: rgb(103, 103, 103) !important;
+}
+
+.even {
+    background-color: #242424 !important;
 }
 
 #movie-gross-table table {

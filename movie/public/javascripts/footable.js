@@ -34,7 +34,7 @@
             calculateWidthOverride: null,
             toggleSelector: ' > tbody > tr:not(.footable-row-detail)', //the selector to show/hide the detail row
             columnDataSelector: '> thead > tr:last-child > th, > thead > tr:last-child > td', //the selector used to find the column data in the thead
-            detailSeparator: ':', //the separator character used when building up the detail row
+            detailSeparator: ' :', //the separator character used when building up the detail row
             toggleHTMLElement: '<span />', // override this if you want to insert a click target rather than use a background image.
             createGroupedDetail: function (data) {
                 var groups = { '_none': { 'name': null, 'data': [] } };

@@ -21,9 +21,9 @@
 			<div class="col-xs-6 text-right">en | cn</div>
 		</div>
 	    <div id="movie-gross-table" class="col-xs-12">
-		    <table class="table-bordered table-striped table-condensed cf table toggle-circle-filled">
+		    <table class="table-bordered table-condensed cf table toggle-circle-filled">
 		    	<thead>
-		    		<th class="text-center" data-type="numeric" >Rank</th>
+		    		<th class="text-center" data-sort-initial="true" data-type="numeric" >Rank</th>
 		    		<th class="text-center" >File Title</th>
 		    		<th class="text-center" data-hide="phone">Distributor / Production Co.</th>
 		    		<th class="text-center" data-hide="phone">Origin</th>
@@ -33,7 +33,7 @@
 		    	</thead>
 		    	<tbody>
 					<% for(var i=0; i < details.length; i++) { %>
-				   		<tr>
+				   		<tr class="data-row">
 				   			<td class="text-center" data-value="<%= i + 1 %>" data-title="Rank"><%= i + 1 %></td>
 				    		<td><%= details[i].movie %></td>
 				    		<td><%= details[i].prodCo %></td>
@@ -53,6 +53,9 @@
 
 $(function() {
   $('table').footable();
+
+	$(".footable tbody tr:odd").addClass("odd");
+	$(".footable tbody tr:even").addClass("even");
 });
 
 $('table').footable({
@@ -62,10 +65,17 @@ $('table').footable({
   }
 });
 
-// $('td').click(function(e) {
-// });
+$('td').click(function(e) {
+	if($(e.currentTarger).parent().hasClass('footable-row-detail')) {
+		if($(e.currentTarger).parent().prev().hasClass('odd')) {
+			$(e.currentTarger).parent().css('background-color' , 'rgb(103, 103, 103) !important');
+		} else {
+			$(e.currentTarger).parent().css('background-color' , '#242424 !important');
+		}
+	}
+});
 
-$('')
+
 
 
 </script>

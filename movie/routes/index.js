@@ -67,13 +67,13 @@ router.get('/', function(req, res, next) {
 
             date.from = moment(from.getTime()).format('DD/MM/YYYY')
             date.to = moment(to.getTime()).format('DD/MM/YYYY')
-            console.log(date)
+
             url_1 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + 1);
             url_2 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + 2);
             url_3 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + 3);
             url_4 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + 4);
             url = [url_1, url_2, url_3, url_4];
-            console.log(url)
+
             async.each(url,
                 function(item, callback) {
                     http.get(item, function(res) {
