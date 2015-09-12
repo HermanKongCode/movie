@@ -5,8 +5,6 @@ body {
     color: white !important;
 }
 
-html {}
-
 .table-striped>tbody>tr:nth-of-type(odd) {
     background-color: rgb(103, 103, 103) !important;
 }
@@ -19,6 +17,10 @@ html {}
     #movie-gross-table table {
         background-color: #242424;
         font-size: 18px;
+    }
+
+    body {
+        padding: 1px !important;
     }
 }
 
