@@ -7,7 +7,6 @@
     <script src="/javascripts/jquery-1.9.1.min.js" type="text/javascript"></script>
     <script src="/javascripts/footable.js" type="text/javascript"></script>
 	<script src="/javascripts/footable.sort.js" type="text/javascript"></script>
-	<script src="/javascripts/moment.js" type="text/javascript"></script>
   </head>
   <body>
     <h1>Movie</h1>
@@ -26,7 +25,7 @@
 	    	<tbody>
 				<% for(var i=0; i < details.length; i++) { %>
 			   		<tr>
-			   			<td data-value="<%= i + 1 %>" data-title="Rank"><%= i + 1 %></td>
+			   			<td class="text-center" data-value="<%= i + 1 %>" data-title="Rank"><%= i + 1 %></td>
 			    		<td><%= details[i].movie %></td>
 			    		<td><%= details[i].prodCo %></td>
 			    		<td><%= details[i].origin %></td>
