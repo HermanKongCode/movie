@@ -10,7 +10,7 @@ body {
 }
 
 @media ( max-width: 700px) {
-	body {
+	table {
 		font-size: 18px;
 	}
 }
