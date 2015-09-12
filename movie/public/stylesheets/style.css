@@ -9,9 +9,6 @@ body {
     background-color: rgb(103,103,103) !important;
 }
 
-@media ( max-width: 700px) {
-	table {
-		font-size: 18px;
-	}
+#movie-gross-table table{
+ background-color: #242424;
 }
-
