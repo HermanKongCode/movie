@@ -15,16 +15,29 @@ router.get('/', function(req, res, next) {
     var currentTime = new Date();
     var weekDifferent = parseInt((currentTime.getTime() - startTime.getTime()) / (7 * 24 * 60 * 60 * 1000) - 1)
 
+    var lang = req.query.lang
 
-    var url_1 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=en&wbid=' + (wbid + weekDifferent);
-    var url_2 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=en&wbid=' + (wbid + weekDifferent - 1);
-    var url_3 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=en&wbid=' + (wbid + weekDifferent - 2);
-    var url_4 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=en&wbid=' + (wbid + weekDifferent - 3);
+    if (lang == 'cn') {
+        lang = 'cn'
+    } else {
+        lang = 'en'
+    }
+
+    var url_1 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + weekDifferent);
+    var url_2 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + weekDifferent - 1);
+    var url_3 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + weekDifferent - 2);
+    var url_4 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + weekDifferent - 3);
     var url = [url_1, url_2, url_3, url_4];
-    finalArray = [];
     var countWeeks = 0;
 
+    var finalArray = [];
+    var date = {
+        'from': '',
+        'to': ''
+    }
+
     async.each(url,
+        // check the latest data
         function(item, callback) {
             http.get(item, function(res) {
                 var bufferhelper = new BufferHelper();
@@ -44,14 +57,22 @@ router.get('/', function(req, res, next) {
 
             });
         },
+        // end check the latest data
 
+        // fetch data of previous four weeks
         function(err) {
-            url_1 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=en&wbid=' + (wbid + 1);
-            url_2 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=en&wbid=' + (wbid + 2);
-            url_3 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=en&wbid=' + (wbid + 3);
-            url_4 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=en&wbid=' + (wbid + 4);
-            url = [url_1, url_2, url_3, url_4];
 
+            var from = new Date(startTime.getTime() + new Date((wbid - 1099) * 7 * 24 * 60 * 60 * 1000).getTime())
+            var to = new Date ( startTime.getTime() + new Date((1102 - 1099) * 7 * 24 * 60 * 60 * 1000).getTime() + 6 * 24 * 60 * 60 * 1000)  
+
+            date.from = moment(from.getTime()).format('DD/MM/YYYY')
+            date.to = moment(to.getTime()).format('DD/MM/YYYY')
+
+            url_1 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + 1);
+            url_2 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + 2);
+            url_3 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + 3);
+            url_4 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + 4);
+            url = [url_1, url_2, url_3, url_4];
             async.each(url,
                 function(item, callback) {
                     http.get(item, function(res) {
@@ -62,10 +83,9 @@ router.get('/', function(req, res, next) {
                         });
 
                         res.on('end', function() {
-                            $ = cheerio.load(iconv.decode(bufferhelper.toBuffer(), 'Big5'));
+                            $ = cheerio.load(iconv.decode(bufferhelper.toBuffer(), 'Big5')); // for chinese version
                             var $rows = $('table tr table tr').toArray();
-                            if ($rows.length == 16) {
-
+                            if ($rows.length == 16) { // prevent crash
 
                                 $rows.map(function(row, i) {
                                     var cells = $(row).find('td').toArray();
@@ -74,7 +94,7 @@ router.get('/', function(req, res, next) {
                                         var tempArray = []
 
                                         cells.map(function(cell, j) {
-                                            if (j > 0 && j != 6) {
+                                            if (j > 0 && j != 6) { // ignore rank and total gross
                                                 tempArray.push($(cell).text());
                                             }
                                         });
@@ -91,11 +111,6 @@ router.get('/', function(req, res, next) {
                 },
 
                 function(err) {
-                    url_1 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=en&wbid=' + (wbid);
-                    url_2 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=en&wbid=' + (wbid - 1);
-                    url_3 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=en&wbid=' + (wbid - 2);
-                    url_4 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=en&wbid=' + (wbid - 3);
-                    url = [url_1, url_2, url_3, url_4];
                     var details = []
                     var gross = {}
 
@@ -131,7 +146,8 @@ router.get('/', function(req, res, next) {
                     }
 
                     res.render('index', {
-                        details: details
+                        details: details,
+                        date : date
                     })
                 }
             );
