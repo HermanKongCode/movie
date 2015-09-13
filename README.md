@@ -16,5 +16,5 @@ forever start bin/www
 
 
 
-
+Type localhost:3000 on your broswer
 Enjoy =]
