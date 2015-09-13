@@ -10,11 +10,13 @@ var moment = require('moment');
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
+    //define variable
     var wbid = 1099
     var startTime = new Date(2015, 7, 3);
     var currentTime = new Date();
     var weekDifferent = parseInt((currentTime.getTime() - startTime.getTime()) / (7 * 24 * 60 * 60 * 1000) - 1)
 
+    //set language variable
     var lang = req.query.lang
     var heading = {}
     var tableHeading = {}
@@ -54,6 +56,7 @@ router.get('/', function(req, res, next) {
         }
     }
 
+    //define link to check the latest data
     var url_1 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + weekDifferent);
     var url_2 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + weekDifferent - 1);
     var url_3 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + weekDifferent - 2);
@@ -80,7 +83,7 @@ router.get('/', function(req, res, next) {
                 res.on('end', function() {
                     $ = cheerio.load(iconv.decode(bufferhelper.toBuffer(), 'Big5'));
                     var $rows = $('table tr table tr').toArray();
-                    if ($rows.length != 16) {
+                    if ($rows.length != 16) { // if do not have data
                         wbid--
                     }
                     callback()
@@ -146,6 +149,7 @@ router.get('/', function(req, res, next) {
                     var details = []
                     var gross = {}
 
+                    //get the list of data
                     for (var i = 0; i < finalArray.length; i++) {
                         if (gross[finalArray[i][0]] != undefined) {
                             gross[finalArray[i][0]] = parseInt(gross[finalArray[i][0]]) + parseInt(finalArray[i][3].toString().replace(/,/g, ''))
@@ -164,10 +168,11 @@ router.get('/', function(req, res, next) {
                         details[i]['gross'] = gross[details[i].movie]
                     }
 
-                    details.sort(function(a, b) {
+                    details.sort(function(a, b) { //sort, the slowest part
                         return parseInt(b.gross) - parseInt(a.gross);
                     });
 
+                    //for the table sorting
                     for (var i = 0; i < details.length; i++) {
                         var temp = "" + gross[details[i].movie]
                         temp = temp.replace(/,/g, '')
@@ -177,6 +182,7 @@ router.get('/', function(req, res, next) {
                         details[i]['unix'] = moment(details[i]['releaseDate'], "DD/MM/YYYY").unix()
                     }
 
+                    //return
                     res.render('index', {
                         details: details,
                         date: date,
