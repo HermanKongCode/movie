@@ -28,7 +28,7 @@ body {
 @media (max-width: 980px) {
     #movie-gross-table table {
         font-size: 18px;
-        font-weight: 200;
+        font-weight: 300;
     }
 
     body {
