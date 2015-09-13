@@ -16,11 +16,42 @@ router.get('/', function(req, res, next) {
     var weekDifferent = parseInt((currentTime.getTime() - startTime.getTime()) / (7 * 24 * 60 * 60 * 1000) - 1)
 
     var lang = req.query.lang
-
+    var heading = {}
+    var tableHeading = {}
     if (lang == 'cn') {
         lang = 'cn'
+        heading = {
+            'heading': '過去四週票房資料',
+            'from': '由',
+            'to': '至',
+            'enColor': 'black',
+            'cnColor': 'white'
+        }
+        tableHeading = {
+            'rank': '排名',
+            'title': '影片名稱',
+            'distributor': '發行商/出品公司',
+            'origin': '產地',
+            'releaseDate': '開畫日期',
+            'gross': '四週週票房收入(港幣)'
+        }
     } else {
         lang = 'en'
+        heading = {
+            'heading': 'MONTHLY BOX OFFICE',
+            'from': 'From',
+            'to': 'To',
+            'enColor': 'white',
+            'cnColor': 'black'
+        }
+        tableHeading = {
+            'rank': 'Rank',
+            'title': 'File Title',
+            'distributor': 'Distributor / Production Co.',
+            'origin': 'Origin',
+            'releaseDate': 'Release Date',
+            'gross': 'Total Gross 4 Weeks (HK$)'
+        }
     }
 
     var url_1 = 'http://www.hkfilmart.com/boxofficedetail.asp?lang=' + lang + '&wbid=' + (wbid + weekDifferent);
@@ -63,7 +94,7 @@ router.get('/', function(req, res, next) {
         function(err) {
 
             var from = new Date(startTime.getTime() + new Date((wbid - 1099) * 7 * 24 * 60 * 60 * 1000).getTime())
-            var to = new Date ( startTime.getTime() + new Date((1102 - 1099) * 7 * 24 * 60 * 60 * 1000).getTime() + 6 * 24 * 60 * 60 * 1000)  
+            var to = new Date(startTime.getTime() + new Date((1102 - 1099) * 7 * 24 * 60 * 60 * 1000).getTime() + 6 * 24 * 60 * 60 * 1000)
 
             date.from = moment(from.getTime()).format('DD/MM/YYYY')
             date.to = moment(to.getTime()).format('DD/MM/YYYY')
@@ -148,7 +179,9 @@ router.get('/', function(req, res, next) {
 
                     res.render('index', {
                         details: details,
-                        date : date
+                        date: date,
+                        heading: heading,
+                        tableHeading: tableHeading
                     })
                 }
             );

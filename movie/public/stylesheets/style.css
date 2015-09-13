@@ -1,14 +1,16 @@
 body {
     padding: 50px;
     font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-    /*background-color: rgb(16, 16, 16) !important;*/
     color: white !important;
     background-image: url('/images/grey_wash_wall.png')
 }
 
-/*.table-striped>tbody>tr:nth-of-type(odd){*/
+.no-padding {
+    padding: 0px !important;
+}
+
 .odd {
-    background-color: rgb(75, 75, 75) !important;
+    background-color: #242424 !important;
 }
 
 .even {
@@ -19,14 +21,20 @@ body {
     background-color: #242424;
 }
 
+.footable-row-detail {
+    background-color: rgb(75, 75, 75) !important;
+}
+
 @media (max-width: 980px) {
     #movie-gross-table table {
-        background-color: #242424;
         font-size: 18px;
+        font-weight: 200;
     }
 
     body {
         padding: 1px !important;
     }
 }
+
+
 
